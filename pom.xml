@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>edu.brown.cs32</groupId>
+    <artifactId>sprint-3-lwang58-sli64</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+
+        <!-- Using latest LTS version (17) -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
+        <!-- Defines UTF-8 encoding -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- SortPom -->
+        <sortpom.version>3.0.0</sortpom.version>
+
+        <!-- Spotless -->
+        <spotless.version>2.22.8</spotless.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!--
+                The Compiler Plugin is used to compile the sources of your project.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <!-- Without this, Maven will not run JUnit tests with
+                 JUnit, and we'll lack @BeforeAll/@BeforeEach/etc.
+              -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
+            </plugin>
+
+            <!--
+            We use Spotless to automate style checking and code formatting.
+      -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless.version}</version>
+                <configuration>
+                    <java>
+                        <!-- style checking + formatting will apply to these files -->
+                        <includes>
+                            <include>src/main/java/**/*.java</include>
+                            <include>src/test/java/**/*.java</include>
+                        </includes>
+
+                        <!-- standard import order -->
+                        <importOrder/>
+                        <!-- self-explanatory -->
+                        <removeUnusedImports/>
+                        <!-- use google-java-format: https://github.com/google/google-java-format -->
+                        <googleJavaFormat/>
+                    </java>
+                </configuration>
+                <executions>
+                    <!-- checks formatting during compilation; will fix if errors exist -->
+                    <execution>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!--
+           We've switched to using Moshi for serialization/deserialization of JSON.
+           https://github.com/square/moshi
+           We used to use Gson, but Gson isn't being maintained actively anymore,
+           and doesn't interact well with records. The developer who switched
+           from Gson to Moshi has added remarks (e.g., consistent exception use).
+
+           Moshi 1.13.0 was released in December, 2021
+
+           We'll also use Moshi's adapters package, which includes pre-built adapters
+           for quite a few things, including polymorphic adapters.
+
+           The adapters README.md includes a "latest.version" version; replaced with
+           latest version as of August 2022.
+       -->
+
+        <dependency>
+            <groupId>com.squareup.moshi</groupId>
+            <artifactId>moshi</artifactId>
+            <version>1.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.moshi</groupId>
+            <artifactId>moshi-adapters</artifactId>
+            <version>1.13.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sparkjava</groupId>
+            <artifactId>spark-core</artifactId>
+            <version>2.9.3</version>
+        </dependency>
+
+
+        
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>org.json</artifactId>
+            <version>chargebee-1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.9</version>
+        </dependency>
+
+
+
+
+    </dependencies>
+
+</project>
